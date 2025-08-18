@@ -37,7 +37,7 @@ const News = () => {
               placeholder="Enter your email"
               type="email"
               id="email"
-              required=""
+              required=
             />
           </div>
           <div>
@@ -65,5 +65,6 @@ const News = () => {
 </section>
     )
 }
+
 
 export default News
