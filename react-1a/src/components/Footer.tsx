@@ -1,5 +1,5 @@
 import "./style.css";
-
+import { Mouse } from "lucide-react";
 interface FooterLink {
   name: string;
   href: string;
@@ -45,11 +45,10 @@ const Footer = () => {
     <footer className="bg-gray-900 text-gray-400">
       <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Logo + Address */}
           <div>
             <div className="flex items-center mb-4">
-              <span className="bg-yellow-500 text-gray-900 font-bold rounded-full p-2 mr-2">
-                
+              <span className="bg-yellow-500 text-gray-900 font-bold rounded-full p-1 mr-1">
+                <Mouse />
               </span>
               <h2 className="text-xl font-bold text-white">Flexy UI</h2>
             </div>

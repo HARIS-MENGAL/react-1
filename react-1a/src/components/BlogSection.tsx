@@ -1,57 +1,61 @@
 import React, { useEffect, useState } from "react";
 
-interface Blog {
+interface BlogPost {
   id: number;
   title: string;
   body: string;
+  userId: number;
 }
 
-const BlogCard: React.FC<{ title: string; body: string }> = ({ title, body }) => {
-  return (
-    <div className="rounded-2xl shadow-md border p-6 bg-white hover:shadow-lg transition">
-      <h3 className="text-xl font-semibold mb-3">{title}</h3>
-      <p className="text-gray-600">{body.slice(0, 100)}...</p>
-      <button className="mt-4 text-blue-600 font-medium hover:underline">
-        Read More →
-      </button>
-    </div>
-  );
-};
-
 const BlogSection: React.FC = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=6");
-        const data = await res.json();
-        setBlogs(data);
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
+    // Fetch blogs from Dummy API
+    fetch("https://jsonplaceholder.typicode.com/posts?_limit=6")
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts(data);
         setLoading(false);
-      }
-    };
-
-    fetchBlogs();
+      });
   }, []);
 
-  if (loading) {
-    return <p className="text-center py-8 text-gray-500">Loading blogs...</p>;
-  }
-
   return (
-    <section className="py-12 bg-gray-50">
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-10">Latest Blogs</h2>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {blogs.map((blog) => (
-            <BlogCard key={blog.id} title={blog.title} body={blog.body} />
+    <section className="py-10 px-5">
+      <h2 className="text-2xl font-bold mb-2">Latest Articles</h2>
+      <p className="text-gray-500 mb-8">
+        Diverse Range of articles related to html css and javascript
+      </p>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className="flex items-start gap-4 bg-white shadow-md rounded-2xl p-5 hover:shadow-lg transition"
+            >
+
+              <img
+                src={`https://picsum.photos/200?random=${post.id}`}
+                alt="blog"
+                className="w-28 h-20 rounded-md object-cover"
+              />
+              <div>
+                <h3 className="font-semibold text-lg">{post.title}</h3>
+                <p className="text-gray-600 text-sm line-clamp-2">
+                  {post.body}
+                </p>
+                <p className="text-xs text-gray-400 mt-2">
+                  {new Date().toLocaleDateString()} | 5 min read
+                </p>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
+      )}
     </section>
   );
 };
